@@ -1,0 +1,68 @@
+name: Private Markets Ontology CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Validate Ontology Structure
+      run: |
+        npm run validate-ontology
+        
+    - name: Run Unit Tests
+      run: npm run test:unit
+      
+    - name: Run Integration Tests
+      run: npm run test:integration
+      
+    - name: Run Performance Tests
+      run: npm run test:performance
+
+    - name: Generate Documentation
+      run: npm run generate-docs
+
+    - name: Build Artifacts
+      run: npm run build
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+    - name: Deploy to Production
+      run: |
+        npm run deploy
+        
+    - name: Publish Documentation
+      run: |
+        npm run publish-docs
+
+  notify:
+    needs: [test, deploy]
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+    - name: Send Notification
+      if: ${{ failure() }}
+      run: |
+        curl -X POST ${{ secrets.WEBHOOK_URL }} \
+          -H "Content-Type: application/json" \
+          -d '{"status": "${{ job.status }}", "run_id": "${{ github.run_id }}"}'

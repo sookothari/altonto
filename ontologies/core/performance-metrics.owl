@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.semanticweb.org/privatemarkets/core/PerformanceMetrics"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:fibo-fnd-utl-alx="https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/Analytics/">
+
+    <!-- Performance Metric Base Classes -->
+    <Class rdf:about="#PerformanceMetric">
+        <rdfs:subClassOf rdf:resource="fibo-fnd-utl-alx:FinancialCalculation"/>
+        <rdfs:label>Performance Metric</rdfs:label>
+        <rdfs:comment>Base class for private market performance measurements</rdfs:comment>
+    </Class>
+
+    <!-- Return Metrics -->
+    <Class rdf:about="#IRR">
+        <rdfs:subClassOf rdf:resource="#PerformanceMetric"/>
+        <rdfs:label>Internal Rate of Return</rdfs:label>
+    </Class>
+
+    <Class rdf:about="#MOIC">
+        <rdfs:subClassOf rdf:resource="#PerformanceMetric"/>
+        <rdfs:label>Multiple of Invested Capital</rdfs:label>
+    </Class>
+
+    <Class rdf:about="#TVPI">
+        <rdfs:subClassOf rdf:resource="#PerformanceMetric"/>
+        <rdfs:label>Total Value to Paid In</rdfs:label>
+    </Class>
+
+    <Class rdf:about="#DPI">
+        <rdfs:subClassOf rdf:resource="#PerformanceMetric"/>
+        <rdfs:label>Distributions to Paid In</rdfs:label>
+    </Class>
+
+    <Class rdf:about="#RVPI">
+        <rdfs:subClassOf rdf:resource="#PerformanceMetric"/>
+        <rdfs:label>Residual Value to Paid In</rdfs:label>
+    </Class>
+
+    <!-- Cash Flow Types -->
+    <Class rdf:about="#CashFlow">
+        <rdfs:label>Cash Flow</rdfs:label>
+    </Class>
+
+    <Class rdf:about="#Capital">
+        <rdfs:subClassOf rdf:resource="#CashFlow"/>
+        <rdfs:label>Capital</rdfs:label>
+    </Class>
+
+    <Class rdf:about="#Distribution">
+        <rdfs:subClassOf rdf:resource="#CashFlow"/>
+        <rdfs:label>Distribution</rdfs:label>
+    </Class>
+
+    <!-- Valuation Types -->
+    <Class rdf:about="#ValuationType">
+        <rdfs:label>Valuation Type</rdfs:label>
+    </Class>
+
+    <Class rdf:about="#FairValue">
+        <rdfs:subClassOf rdf:resource="#ValuationType"/>
+        <rdfs:label>Fair Value</rdfs:label>
+    </Class>
+
+    <Class rdf:about="#CostBasis">
+        <rdfs:subClassOf rdf:resource="#ValuationType"/>
+        <rdfs:label>Cost Basis</rdfs:label>
+    </Class>
+
+    <!-- Properties -->
+    <DatatypeProperty rdf:about="#calculationDate">
+        <rdfs:domain rdf:resource="#PerformanceMetric"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+        <rdfs:label>calculation date</rdfs:label>
+    </DatatypeProperty>
+
+    <DatatypeProperty rdf:about="#metricValue">
+        <rdfs:domain rdf:resource="#PerformanceMetric"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+        <rdfs:label>metric value</rdfs:label>
+    </DatatypeProperty>
+
+    <ObjectProperty rdf:about="#hasValuationType">
+        <rdfs:domain rdf:resource="#PerformanceMetric"/>
+        <rdfs:range rdf:resource="#ValuationType"/>
+        <rdfs:label>has valuation type</rdfs:label>
+    </ObjectProperty>
+
+    <!-- Time Period Concepts -->
+    <Class rdf:about="#TimePeriod">
+        <rdfs:label>Time Period</rdfs:label>
+    </Class>
+
+    <Class rdf:about="#Quarter">
+        <rdfs:subClassOf rdf:resource="#TimePeriod"/>
+        <rdfs:label>Quarter</rdfs:label>
+    </Class>
+
+    <Class rdf:about="#Year">
+        <rdfs:subClassOf rdf:resource="#TimePeriod"/>
+        <rdfs:label>Year</rdfs:label>
+    </Class>
+
+    <ObjectProperty rdf:about="#measuredOver">
+        <rdfs:domain rdf:resource="#PerformanceMetric"/>
+        <rdfs:range rdf:resource="#TimePeriod"/>
+        <rdfs:label>measured over</rdfs:label>
+    </ObjectProperty>
+
+</Ontology>
